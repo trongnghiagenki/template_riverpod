@@ -20,8 +20,26 @@ class HomeScreen extends ConsumerWidget {
         },
         child: const Icon(Icons.logout),
       ),
-      body: Center(
-        child: const Text(LanguageKey.homeScreen).tr(),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final userInfo = ref.watch(authServiceProvider).userInfo;
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(LanguageKey.homeScreen).tr(),
+                const SizedBox(height: 20),
+                Text('Email: ${userInfo?.email}'),
+                const SizedBox(height: 20),
+                Text('Name: ${userInfo?.name}'),
+                const SizedBox(height: 20),
+                Image.network(
+                  userInfo?.avatar ?? '',
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

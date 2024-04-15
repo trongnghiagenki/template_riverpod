@@ -23,6 +23,7 @@ class AuthUsecase {
 
   Future<Either<DataError, bool>> login() async {
     final res = await authRepo.login();
+
     return res.fold(
       (l) => Left(l),
       (tokenData) async {
@@ -31,18 +32,33 @@ class AuthUsecase {
         return userInfoRes.fold(
           (l) => Left(l),
           (r) async {
-            final userInfo = UserInfo(
-              accessToken: tokenData.accessToken,
-              refreshToken: tokenData.refreshToken,
-              id: r.id,
-              email: r.email,
-              name: r.name,
-              avatar: r.avatar,
+            final resUpdateUser = await getUserInfo();
+            return resUpdateUser.fold(
+              (l) => Left(l),
+              (r) => const Right(true),
             );
-            await ref.read(authServiceProvider).updateUser(userInfo);
-            return const Right(true);
           },
         );
+      },
+    );
+  }
+
+  Future<Either<DataError, bool>> getUserInfo() async {
+    final res = await authRepo.getUserInfo();
+    return res.fold(
+      (l) => Left(l),
+      (r) async {
+        final currentUser = ref.read(authServiceProvider);
+        final userInfo = UserInfo(
+          accessToken: currentUser.accessToken,
+          refreshToken: currentUser.refreshToken,
+          id: r.id,
+          email: r.email,
+          name: r.name,
+          avatar: r.avatar,
+        );
+        await ref.read(authServiceProvider).updateUser(userInfo);
+        return const Right(true);
       },
     );
   }

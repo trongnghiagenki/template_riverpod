@@ -18,8 +18,6 @@ part 'dio_service.g.dart';
 @riverpod
 Dio dio(DioRef ref) {
   final dio = ref.read(dioServiceProvider()).dio;
-  final token = ref.watch(authServiceProvider).accessToken;
-  dio.options.headers['Authorization'] = 'Bearer $token';
   return dio;
 }
 
@@ -86,7 +84,12 @@ class DioService {
         final isTokenExpired = JwtDecoder.isExpired(token);
         // If token is not expired, continue with current token
         if (!isTokenExpired) {
-          return handler.next(options);
+          final token = authService.accessToken;
+          talker.info('Request token: $token');
+          final newOptions = options.copyWith(
+              headers: options.headers
+                ..addAll({"Authorization": "Bearer $token"}));
+          return handler.next(newOptions);
         }
         // If token is expired, try to refresh token
         talker.warning('Token is expired, Try to refresh token...');
