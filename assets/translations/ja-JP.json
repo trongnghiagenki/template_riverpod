@@ -1,0 +1,10 @@
+{
+  "homeScreen": "ホーム画面",
+  "loginScreen": "ログイン画面",
+  "dioTimeout": "接続タイムアウト",
+  "dioBadCertificate": "不正な証明書",
+  "dioBadResponse": "レスポンスが悪い",
+  "dioCancel": "リクエストがキャンセルされました",
+  "dioConnectionError": "接続エラー",
+  "dioUnknown": "不明なエラー"
+}

@@ -1,0 +1,10 @@
+{
+  "homeScreen": "Home Screen",
+  "loginScreen": "Login screen",
+  "dioTimeout": "connection timeout",
+  "dioBadCertificate": "invalid certificate",
+  "dioBadResponse": "Poor response",
+  "dioCancel": "request canceled",
+  "dioConnectionError": "Connection error",
+  "dioUnknown": "Unknown error"
+}

@@ -1,0 +1,29 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        enabled: true
+        generate_for:
+          include:
+            - "lib/core/entities/**/**.dart"
+            - "lib/features/**/domain/entities/**.dart"
+            - "lib/features/**/presentation/**/providers/**.dart"
+            - "lib/features/**/presentation/providers/**.dart"
+      riverpod_generator:
+        enabled: true
+        generate_for:
+          include:
+            - "lib/router/**.dart"
+            - "lib/services/**.dart"
+            - "lib/features/**/data/api_providers/**.dart"
+            - "lib/features/**/data/repositories/**.dart"
+            - "lib/features/**/domain/usecases/**.dart"
+            - "lib/features/**/presentation/**/providers/**.dart"
+            - "lib/features/**/presentation/providers/**.dart"
+      hive_generator:
+        enabled: true
+        generate_for:
+          include:
+            - "lib/core/entities/**/**.dart"
+      flutter_gen_runner:
+        enabled: true
