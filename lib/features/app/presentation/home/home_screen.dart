@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:riverpod_structure/router/app_router.dart';
 import '../../../../core/core.dart';
 import '../../../../services/auth/auth_service.dart';
 
@@ -28,14 +30,21 @@ class HomeScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(LanguageKey.homeScreen).tr(),
-                const SizedBox(height: 20),
+                const Gap(20),
                 Text('Email: ${userInfo?.email}'),
-                const SizedBox(height: 20),
+                const Gap(20),
                 Text('Name: ${userInfo?.name}'),
-                const SizedBox(height: 20),
+                const Gap(20),
                 Image.network(
                   userInfo?.avatar ?? '',
                 ),
+                const Gap(16),
+                ElevatedButton(
+                  onPressed: () {
+                    context.goNamed(AppRoutes.categories.name);
+                  },
+                  child: const Text('Categories'),
+                )
               ],
             ),
           );
