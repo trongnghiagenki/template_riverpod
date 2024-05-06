@@ -44,31 +44,33 @@ void main() {
       expect(value, 'value');
     });
 
-    // test('readValue should return default value if key does not exist',
-    //     () async {
-    //   final box = MockBox();
-    //   final container = await makeProviderContainer(box);
-    //   final storageService =
-    //       await container.read(storageServiceProvider.future);
-    //   when(() => box.get('wrongKey', defaultValue: 'default'))
-    //       .thenReturn('default');
+    test('readValue should return default value if key does not exist',
+        () async {
+      final box = MockBox();
+      final container = await makeProviderContainer(box);
+      final storageService =
+          await container.read(storageServiceProvider.future);
+      when(() => box.get('wrongKey', defaultValue: 'default'))
+          .thenReturn('default');
 
-    //   final value = storageService.readValue('key', 'default');
-    //   verify(() => box.get('wrongKey', defaultValue: 'default')).called(1);
-    //   verifyNoMoreInteractions(box);
-    //   expect(value, 'default');
-    // });
+      final value = storageService.readValue('wrongKey', 'default');
+      verify(() => box.get('wrongKey', defaultValue: 'default')).called(1);
+      verifyNoMoreInteractions(box);
+      expect(value, 'default');
+    });
 
-    // test('writeValue should write value to box', () async {
-    //   final box = MockBox();
-    //   final container = await makeProviderContainer(box);
-    //   final storageService =
-    //       await container.read(storageServiceProvider.future);
+    test('writeValue should write value to box', () async {
+      final box = MockBox();
+      final container = await makeProviderContainer(box);
+      final storageService =
+          await container.read(storageServiceProvider.future);
 
-    //   await storageService.writeValue('key', 'value');
-    //   verify(() => box.put('key', 'value')).called(1);
-    //   verifyNoMoreInteractions(box);
-    // });
+      when(() => box.put('key', 'value')).thenAnswer((_) => Future.value(null));
+
+      storageService.writeValue('key', 'value');
+      verify(() => box.put('key', 'value')).called(1);
+      verifyNoMoreInteractions(box);
+    });
 
     test('watch should return a Stream of BoxEvent', () async {
       final box = MockBox();

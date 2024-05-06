@@ -100,8 +100,8 @@ class StorageService {
 
   /// Read list from storage
   List<T> readList<T>(String key) {
-    var res = _box.get(key)?.cast<T>() ?? <T>[];
-    return res;
+    var resp = _box.get(key)?.cast<T>() ?? <T>[];
+    return resp;
   }
 
   /// Read value from storage

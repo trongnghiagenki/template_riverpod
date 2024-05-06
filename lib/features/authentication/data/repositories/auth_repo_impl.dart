@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,33 +13,28 @@ part 'auth_repo_impl.g.dart';
 
 @riverpod
 AuthRepo authRepo(AuthRepoRef ref) {
-  final dio = ref.read(dioProvider);
-  final dioLogin = ref.read(dioLoginProvider);
-  return AuthRepoImpl(dio: dio, dioLogin: dioLogin);
+  return AuthRepoImpl(ref);
 }
 
 class AuthRepoImpl implements AuthRepo {
-  final Dio dio;
-  final Dio dioLogin;
+  final AuthRepoRef ref;
 
-  AuthRepoImpl({
-    required this.dio,
-    required this.dioLogin,
-  });
+  AuthRepoImpl(this.ref);
 
   @override
   Future<Either<DataError, UserInfo>> login() async {
     try {
       // Call login API
-      final res = await dioLogin.post(
+      final dioLogin = ref.read(dioLoginProvider);
+      final resp = await dioLogin.post(
         'https://api.escuelajs.co/api/v1/auth/login',
         data: {"email": "john@mail.com", "password": "changeme"},
       );
 
       // Check response
       // If login success, return user info with token
-      if (res.isCreated || res.isSuccess) {
-        final loginUserDto = LoginUserDto.fromJson(res.data);
+      if (resp.isCreated || resp.isSuccess) {
+        final loginUserDto = LoginUserDto.fromJson(resp.data);
         final mapper = LoginUserDtoToUserInfoMapper();
         return Right(mapper(loginUserDto));
       }
@@ -61,14 +55,15 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<DataError, UserInfo>> getUserInfo() async {
     try {
       // Call login API
-      final res = await dio.get(
+      final dio = ref.read(dioProvider);
+      final resp = await dio.get(
         'https://api.escuelajs.co/api/v1/auth/profile',
       );
 
       // Check response
       // If get user info success, return user info
-      if (res.isSuccess) {
-        final userInfoDto = UserInfoDto.fromJson(res.data);
+      if (resp.isSuccess) {
+        final userInfoDto = UserInfoDto.fromJson(resp.data);
         final mapper = UserInfoDtoToUserInfoMapper();
         return Right(mapper(userInfoDto));
       }

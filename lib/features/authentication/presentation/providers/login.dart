@@ -21,8 +21,8 @@ class Login extends _$Login {
     try {
       final authRepo = ref.read(authRepoProvider);
       final usecase = ref.read(authUsecaseProvider(authRepo));
-      final res = await usecase.login();
-      res.fold(
+      final resp = await usecase.login();
+      resp.fold(
         (l) => state = Error(l),
         (r) => state = const Success(),
       );

@@ -17,7 +17,9 @@ part 'dio_service.g.dart';
 /// Dio service provider with token
 @riverpod
 Dio dio(DioRef ref) {
+  final token = ref.read(authServiceProvider).accessToken;
   final dio = ref.read(dioServiceProvider()).dio;
+  dio.options.headers.addAll({"Authorization": "Bearer $token"});
   return dio;
 }
 
@@ -84,18 +86,13 @@ class DioService {
         final isTokenExpired = JwtDecoder.isExpired(token);
         // If token is not expired, continue with current token
         if (!isTokenExpired) {
-          final token = authService.accessToken;
-          talker.info('Request token: $token');
-          final newOptions = options.copyWith(
-              headers: options.headers
-                ..addAll({"Authorization": "Bearer $token"}));
-          return handler.next(newOptions);
+          return handler.next(options);
         }
         // If token is expired, try to refresh token
         talker.warning('Token is expired, Try to refresh token...');
-        final res = await authService.refreshTokens();
+        final resp = await authService.refreshTokens();
         // If refresh token is successful, continue with new token
-        if (res == true) {
+        if (resp == true) {
           final newToken = authService.accessToken;
           talker.good('Refresh success, new request token: $newToken');
           final newOptions = options.copyWith(
@@ -104,7 +101,7 @@ class DioService {
           return handler.next(newOptions);
         }
         // If refresh token is failed, logout
-        if (res == false) {
+        if (resp == false) {
           talker.error('Refresh token failed, logout...');
           authService.logout();
           return;
@@ -122,9 +119,9 @@ class DioService {
         if (!isLoginRequest && e.response?.statusCode == 401) {
           talker.warning('Request token is expired, Try to refresh token...');
           final authService = ref.read(authServiceProvider);
-          final res = await authService.refreshTokens();
+          final resp = await authService.refreshTokens();
           // If refresh token is successful, continue with new token
-          if (res == true) {
+          if (resp == true) {
             final newToken = authService.accessToken;
             talker.good('Refresh success, new request token: $newToken');
             final newOptions = e.requestOptions.copyWith(
@@ -134,7 +131,7 @@ class DioService {
             return handler.resolve(response);
           }
           // If refresh token is failed, logout
-          if (res == false) {
+          if (resp == false) {
             talker.error('Refresh token failed, logout...');
             authService.logout();
             return;

@@ -22,30 +22,23 @@ class AuthUsecase {
   );
 
   Future<Either<DataError, bool>> login() async {
-    final res = await authRepo.login();
-
-    return res.fold(
+    final resp = await authRepo.login();
+    return resp.fold(
       (l) => Left(l),
       (tokenData) async {
         await ref.read(authServiceProvider).updateUser(tokenData);
-        final userInfoRes = await authRepo.getUserInfo();
-        return userInfoRes.fold(
+        final getUserInfoResp = await getUserInfo();
+        return getUserInfoResp.fold(
           (l) => Left(l),
-          (r) async {
-            final resUpdateUser = await getUserInfo();
-            return resUpdateUser.fold(
-              (l) => Left(l),
-              (r) => const Right(true),
-            );
-          },
+          (r) => const Right(true),
         );
       },
     );
   }
 
   Future<Either<DataError, bool>> getUserInfo() async {
-    final res = await authRepo.getUserInfo();
-    return res.fold(
+    final resp = await authRepo.getUserInfo();
+    return resp.fold(
       (l) => Left(l),
       (r) async {
         final currentUser = ref.read(authServiceProvider);

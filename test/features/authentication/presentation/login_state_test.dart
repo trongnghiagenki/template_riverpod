@@ -4,7 +4,7 @@ import 'package:riverpod_structure/core/core.dart';
 import 'package:riverpod_structure/features/authentication/presentation/providers/login.dart';
 
 void main() {
-  group('LoginState', () {
+  group('LoginProviderState', () {
     test('should create Initial state', () {
       const state = LoginState.initial();
       expect(state, isA<Initial>());
@@ -27,7 +27,7 @@ void main() {
     });
   });
 
-  group('LoginStateX', () {
+  group('LoginProviderStateX', () {
     test('should check if state is Initial', () {
       const state = LoginState.initial();
       expect(state.isInitial, isTrue);
