@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
+import '../features/categories/presentation/categories/categories_screen.dart';
 import '../features/app/presentation/home/home_screen.dart';
 import '../features/authentication/presentation/login/login_screen.dart';
 import '../services/auth/auth_service.dart';
@@ -72,6 +72,12 @@ GoRouter goRouter(GoRouterRef ref) {
         ),
       ),
       GoRoute(
+        path: AppRoutes.categories.initLocation,
+        name: AppRoutes.categories.name,
+        pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+            context: context, state: state, child: const CategoriesScreen()),
+      ),
+      GoRoute(
         path: AppRoutes.notFound.initLocation,
         name: AppRoutes.notFound.name,
         pageBuilder: (context, state) => MaterialPage(
@@ -89,5 +95,19 @@ GoRouter goRouter(GoRouterRef ref) {
       ),
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
+  );
+}
+
+CustomTransitionPage buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SizeTransition(sizeFactor: animation, child: child);
+    },
   );
 }

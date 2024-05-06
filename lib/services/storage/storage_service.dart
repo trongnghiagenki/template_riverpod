@@ -35,7 +35,7 @@ class StorageService {
   /// Initialize StorageService
   static Future<StorageService> init() async {
     // ignore: unused_local_variable
-    bool needMiration = false;
+    bool needMigration = false;
     // Initialize secure storage
     final secureStorage = FlutterSecureStorage(
       iOptions: _getIosOptions(),
@@ -49,7 +49,7 @@ class StorageService {
 
     // Generate secure key if not exists
     if (secureKey == null) {
-      needMiration = true;
+      needMigration = true;
       final genSecureKey = Hive.generateSecureKey();
       await secureStorage.write(
         key: StorageConstants.secureKey,
@@ -74,7 +74,7 @@ class StorageService {
     );
 
     // Do migration here if needed
-    // if (needMiration && await Hive.boxExists(StorageConstants.storage)) {
+    // if (needMigration && await Hive.boxExists(StorageConstants.storage)) {
     //   final oldBox = await Hive.openBox(StorageConstants.storage);
     //   final keys = oldBox.keys;
     //   for (var key in keys) {

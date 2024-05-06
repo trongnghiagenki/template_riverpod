@@ -21,7 +21,7 @@ final appRouterContextProvider = AutoDisposeProvider<BuildContext?>.internal(
 );
 
 typedef AppRouterContextRef = AutoDisposeProviderRef<BuildContext?>;
-String _$goRouterHash() => r'98f6e63a011b1dac3716b0cbb2e75e6e41888018';
+String _$goRouterHash() => r'a0ea534a75930543e3525d16b841dfb25ce2f891';
 
 /// See also [goRouter].
 @ProviderFor(goRouter)
