@@ -17,7 +17,7 @@ class AppThemes {
       secondary: AppColors.secondary,
       background: AppColors.background,
     ),
-    textTheme: GoogleFonts.notoSansJpTextTheme(),
+    textTheme: GoogleFonts.interTextTheme(),
     inputDecorationTheme: const InputDecorationTheme(
       contentPadding: EdgeInsets.symmetric(horizontal: 16),
       border: OutlineInputBorder(

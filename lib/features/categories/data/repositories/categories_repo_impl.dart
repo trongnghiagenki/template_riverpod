@@ -47,7 +47,7 @@ class CategoriesRepoImpl implements CategoriesRepo {
       // Return error
       return const Left(
         DataError(
-          code: ErrorCodes.loginError,
+          code: ErrorCodes.getCategoriesError,
           message: 'Get categories failed',
         ),
       );

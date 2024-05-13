@@ -24,11 +24,6 @@ class CategoriesUsecase {
 
   Future<Either<DataError, List<CategoriesDto>>> getCategories(
       {int? limit}) async {
-    final res = await categoriesRepo.getCategories();
-
-    return res.fold(
-      (l) => Left(l),
-      (r) => Right(r),
-    );
+    return categoriesRepo.getCategories(limit: limit);
   }
 }

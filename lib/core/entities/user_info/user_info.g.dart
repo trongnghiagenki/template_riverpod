@@ -63,7 +63,7 @@ _$UserInfoImpl _$$UserInfoImplFromJson(Map<String, dynamic> json) =>
     _$UserInfoImpl(
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       email: json['email'] as String?,
       name: json['name'] as String?,
       avatar: json['avatar'] as String?,

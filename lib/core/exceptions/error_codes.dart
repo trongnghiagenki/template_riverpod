@@ -18,4 +18,7 @@ class ErrorCodes {
   // == Auth error =======================================
   static const int loginError = 10010;
   static const int getUserInfoError = 10011;
+
+  // == Categories error =================================
+  static const int getCategoriesError = 10020;
 }

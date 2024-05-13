@@ -11,6 +11,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsGoogleFontsGen {
+  const $AssetsGoogleFontsGen();
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -55,6 +59,7 @@ class $AssetsImagesSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsGoogleFontsGen googleFonts = $AssetsGoogleFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }

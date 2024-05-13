@@ -94,7 +94,7 @@ class DioService {
         // If refresh token is successful, continue with new token
         if (resp == true) {
           final newToken = authService.accessToken;
-          talker.good('Refresh success, new request token: $newToken');
+          talker.log('Refresh success, new request token: $newToken');
           final newOptions = options.copyWith(
               headers: options.headers
                 ..addAll({"Authorization": "Bearer $newToken"}));
@@ -123,7 +123,7 @@ class DioService {
           // If refresh token is successful, continue with new token
           if (resp == true) {
             final newToken = authService.accessToken;
-            talker.good('Refresh success, new request token: $newToken');
+            talker.log('Refresh success, new request token: $newToken');
             final newOptions = e.requestOptions.copyWith(
                 headers: e.requestOptions.headers
                   ..addAll({"Authorization": "Bearer $newToken"}));

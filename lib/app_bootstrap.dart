@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 
 import 'core/core.dart';
 import 'services/auth/auth_service.dart';
@@ -44,7 +45,12 @@ Future<ProviderContainer> appBootstrap(WidgetsBinding binding) async {
   // ProviderObserver plugs into the widget lifecycle.
   final container = ProviderContainer(
     observers: [
-      RiverpodObserver(),
+      TalkerRiverpodObserver(
+        settings: const TalkerRiverpodLoggerSettings(
+          printProviderAdded: false,
+          printProviderUpdated: true,
+        ),
+      ),
     ],
   );
 
